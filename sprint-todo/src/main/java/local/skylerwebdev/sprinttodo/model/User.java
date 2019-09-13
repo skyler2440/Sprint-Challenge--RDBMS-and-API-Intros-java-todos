@@ -6,13 +6,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User
+public class User extends Auditable implements Serializable
 {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userid;
@@ -112,4 +115,12 @@ public class User
         }
         return rtnList;
     }
+
+//    @Override
+//    public int hashCode()
+//    {
+//
+//        return Objects.hash(userRole.getUser(), userRole.getRole());
+//
+//    }
 }
