@@ -25,6 +25,11 @@ public class User
             cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
+    @OneToMany(mappedBy = "user",
+               cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    @JsonIgnoreProperties("user")
+    private List<Todo> todos = new ArrayList<>();
 
     public User()
     {
@@ -85,6 +90,16 @@ public class User
     public void setUserRoles(List<UserRoles> userRoles)
     {
         this.userRoles = userRoles;
+    }
+
+    public List<Todo> getTodos()
+    {
+        return todos;
+    }
+
+    public void setTodos(List<Todo> todos)
+    {
+        this.todos = todos;
     }
 
     public List<SimpleGrantedAuthority> getAuthority()

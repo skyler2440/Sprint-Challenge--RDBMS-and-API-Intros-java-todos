@@ -1,5 +1,6 @@
 package local.skylerwebdev.sprinttodo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -19,11 +20,17 @@ public class Todo
     private Date datestarted;
     private boolean completed;
 
-    public Todo(String description, Date datestarted, boolean completed)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid",
+                nullable = false)
+    @JsonIgnoreProperties({"todos", "hibernateLazyInitializer"})
+    private User user;
+
+    public Todo(String description, Date datestarted, User user)
     {
         this.description = description;
         this.datestarted = datestarted;
-        this.completed = completed;
+        this.user = user;
     }
 
     public Todo()
@@ -67,7 +74,17 @@ public class Todo
 
     public void setCompleted(boolean completed)
     {
-        this.completed = completed;
+        this.completed = false;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 
     @Override
