@@ -10,7 +10,7 @@ public interface TodoService
 
     Todo findTodoById(long id);
 
-    List<Todo> findByUserName (String username);
+    List<Todo> findByUserName ();
 
     void delete(long id);
 

@@ -32,28 +32,38 @@ public class TodoServiceImpl implements TodoService
     }
 
     @Override
-    public List<Todo> findByUserName(String username)
+    public List<Todo> findByUserName()
     {
-        return null;
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<Todo> userNameListed = new ArrayList<>();
+        todorepos.findAll().iterator().forEachRemaining(userNameListed::add);
 
+        userNameListed.removeIf(t -> t.getUser().getUsername().equalsIgnoreCase(authentication.getName()));
+        return userNameListed;
+    }
     @Override
     public void delete(long id)
     {
+
         if(todorepos.findById(id).isPresent())
         {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
             if(todorepos.findById(id).get().getUser().getUsername().equalsIgnoreCase(authentication.getName()))
             {
                 todorepos.deleteById(id);
+
             }else
+
             {
+
                 throw new EntityNotFoundException(Long.toString(id) + " " + authentication.getName());
             }
         }else
         {
             throw new EntityNotFoundException(Long.toString(id));
         }
+
     }
     @Transactional
     @Override

@@ -24,11 +24,13 @@ public class UserController
 {
     @Autowired
     private UserService userService;
+    @Autowired
+    private TodoService todoService;
 
-@GetMapping (value = "/mine", produces = {"application/json"})
+    @GetMapping (value = "/mine", produces = {"application/json"})
     public ResponseEntity<?> listMyTodos()
 {
-    List<User> myTodos = userService.findAll();
+    List<Todo> myTodos = todoService.findByUserName();
     return new ResponseEntity<>(myTodos, HttpStatus.OK);
 }
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
